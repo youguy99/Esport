@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hugo's Esport Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <!-- Navigation -->
+  <nav class="bg-blue-800 p-4 shadow-md sticky top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Hugo's Esport Blog</h1>
+      <ul class="flex space-x-6">
+        <li><a href="#home" class="hover:text-blue-300">Accueil</a></li>
+        <li><a href="#cs2" class="hover:text-blue-300">CS2</a></li>
+        <li><a href="#rl" class="hover:text-blue-300">Rocket League</a></li>
+        <li><a href="#lol" class="hover:text-blue-300">LoL</a></li>
+        <li><a href="#about" class="hover:text-blue-300">À propos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home" class="container mx-auto py-12">
+    <h2 class="text-4xl font-bold text-center mb-8">Actualités Esport</h2>
+    <!-- News Section -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-4">Dernières Actualités</h3>
+      <div id="news" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+    <!-- Highlights Section -->
+    <div>
+      <h3 class="text-2xl font-semibold mb-4">Moments Forts</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <h4 class="text-lg font-semibold mb-2">ZywOo Clutch (CS2)</h4>
+          <iframe class="w-full h-64" src="https://www.youtube.com/embed/7fNTH3y2Uj0" frameborder="0" allowfullscreen></iframe>
+          <p class="text-gray-400 text-sm mt-2">Clutch légendaire de ZywOo contre NAVI à l’ESL Pro League.</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg">
+          <h4 class="text-lg font-semibold mb-2">G2 vs Fnatic (LoL)</h4>
+          <iframe class="w-full h-64" src="https://www.youtube.com/embed/4gA2lZ2Kz0I" frameborder="0" allowfullscreen></iframe>
+          <p class="text-gray-400 text-sm mt-2">Caps domine le mid dans un BO5 épique à la LEC.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CS2 Section -->
+  <section id="cs2" class="container mx-auto py-12 hidden">
+    <h2 class="text-3xl font-semibold mb-8">Counter-Strike 2 (CS2)</h2>
+    <!-- HLTV Ranking -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-4">Classement HLTV (21 Avril 2025)</h3>
+      <div class="bg-gray-800 rounded-lg overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-blue-700">
+              <th class="p-4">Position</th>
+              <th class="p-4">Équipe</th>
+              <th class="p-4">Points HLTV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="p-4">1</td><td class="p-4">Vitality</td><td class="p-4">1000</td></tr>
+            <tr><td class="p-4">2</td><td class="p-4">Spirit</td><td class="p-4">849</td></tr>
+            <tr><td class="p-4">3</td><td class="p-4">MOUZ</td><td class="p-4">629</td></tr>
+            <tr><td class="p-4">4</td><td class="p-4">Aurora</td><td class="p-4">544</td></tr>
+            <tr><td class="p-4">5</td><td class="p-4">Natus Vincere</td><td class="p-4">534</td></tr>
+            <tr><td class="p-4">6</td><td class="p-4">G2</td><td class="p-4">430</td></tr>
+            <tr><td class="p-4">7</td><td class="p-4">The MongolZ</td><td class="p-4">419</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Default League Ranking -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-4">Classement ESL Pro League (Europe)</h3>
+      <div class="bg-gray-800 rounded-lg overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-blue-700">
+              <th class="p-4">Position</th>
+              <th class="p-4">Équipe</th>
+              <th class="p-4">Matchs Joués</th>
+              <th class="p-4">Victoires-Défaites</th>
+              <th class="p-4">Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="p-4">1</td><td class="p-4">Vitality</td><td class="p-4">10</td><td class="p-4">8-2</td><td class="p-4">24</td></tr>
+            <tr><td class="p-4">2</td><td class="p-4">Natus Vincere</td><td class="p-4">10</td><td class="p-4">7-3</td><td class="p-4">21</td></tr>
+            <tr><td class="p-4">3</td><td class="p-4">FaZe</td><td class="p-4">10</td><td class="p-4">6-4</td><td class="p-4">18</td></tr>
+            <tr><td class="p-4">4</td><td class="p-4">G2</td><td class="p-4">10</td><td class="p-4">5-5</td><td class="p-4">15</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Sub-navigation for leagues -->
+    <div class="flex space-x-4 mb-8 overflow-x-auto">
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="esl-pro-league">ESL Pro League (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="blast-premier">Blast Premier (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="emea-challengers">EMEA Challengers</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="na-challengers">NA Challengers</button>
+    </div>
+    <!-- League Content -->
+    <div id="cs2-leagues">
+      <div id="esl-pro-league" class="league-content hidden">
+        <h3 class="text-2xl font-bold mb-4">ESL Pro League (Majeure - Europe)</h3>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Classement</h4>
+          <div class="bg-gray-800 rounded-lg overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-blue-700">
+                  <th class="p-4">Position</th>
+                  <th class="p-4">Équipe</th>
+                  <th class="p-4">Matchs Joués</th>
+                  <th class="p-4">Victoires-Défaites</th>
+                  <th class="p-4">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-4">1</td><td class="p-4">Vitality</td><td class="p-4">10</td><td class="p-4">8-2</td><td class="p-4">24</td></tr>
+                <tr><td class="p-4">2</td><td class="p-4">Natus Vincere</td><td class="p-4">10</td><td class="p-4">7-3</td><td class="p-4">21</td></tr>
+                <tr><td class="p-4">3</td><td class="p-4">FaZe</td><td class="p-4">10</td><td class="p-4">6-4</td><td class="p-4">18</td></tr>
+                <tr><td class="p-4">4</td><td class="p-4">G2</td><td class="p-4">10</td><td class="p-4">5-5</td><td class="p-4">15</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Articles</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">Team Vitality</h5>
+              <p class="text-gray-400 text-sm">10 Avril 2025</p>
+              <p>ZywOo mène Vitality à une victoire 2-0 contre FaZe.</p>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">Natus Vincere</h5>
+              <p class="text-gray-400 text-sm">12 Avril 2025</p>
+              <p>s1mple et NAVI dominent G2 sur Dust2.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">ZywOo 1v3 Clutch</h5>
+              <iframe class="w-full h-64" src="https://www.youtube.com/embed/7fNTH3y2Uj0" frameborder="0" allowfullscreen></iframe>
+              <p class="text-gray-400 text-sm mt-2">ZywOo renverse FaZe sur Mirage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="blast-premier" class="league-content hidden">
+        <h3 class="text-2xl font-bold mb-4">Blast Premier (Majeure - Europe)</h3>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Classement</h4>
+          <div class="bg-gray-800 rounded-lg overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-blue-700">
+                  <th class="p-4">Position</th>
+                  <th class="p-4">Équipe</th>
+                  <th class="p-4">Matchs Joués</th>
+                  <th class="p-4">Victoires-Défaites</th>
+                  <th class="p-4">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-4">1</td><td class="p-4">FaZe</td><td class="p-4">8</td><td class="p-4">6-2</td><td class="p-4">18</td></tr>
+                <tr><td class="p-4">2</td><td class="p-4">Astralis</td><td class="p-4">8</td><td class="p-4">5-3</td><td class="p-4">15</td></tr>
+                <tr><td class="p-4">3</td><td class="p-4">Vitality</td><td class="p-4">8</td><td class="p-4">4-4</td><td class="p-4">12</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Articles</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">FaZe Clan</h5>
+              <p class="text-gray-400 text-sm">15 Mars 2025</p>
+              <p>FaZe renverse Astralis à la Spring Showdown.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">karrigan’s Game Plan</h5>
+              <iframe class="w-full h-64" src="https://www.youtube.com/embed/4gA2lZ2Kz0I" frameborder="0" allowfullscreen></iframe>
+              <p class="text-gray-400 text-sm mt-2">Stratégie gagnante de FaZe contre Astralis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="emea-challengers" class="league-content hidden">
+        <h3 class="text-2xl font-bold mb-4">EMEA Challengers (Mineure - EMEA)</h3>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Classement</h4>
+          <div class="bg-gray-800 rounded-lg overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-blue-700">
+                  <th class="p-4">Position</th>
+                  <th class="p-4">Équipe</th>
+                  <th class="p-4">Matchs Joués</th>
+                  <th class="p-4">Victoires-Défaites</th>
+                  <th class="p-4">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-4">1</td><td class="p-4">BIG</td><td class="p-4">6</td><td class="p-4">5-1</td><td class="p-4">15</td></tr>
+                <tr><td class="p-4">2</td><td class="p-4">ENCE</td><td class="p-4">6</td><td class="p-4">4-2</td><td class="p-4">12</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Articles</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">BIG</h5>
+              <p class="text-gray-400 text-sm">20 Février 2025</p>
+              <p>BIG se qualifie pour les playoffs régionaux.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">BIG’s Upset</h5>
+              <iframe class="w-full h-64" src="https://www.youtube.com/embed/7fNTH3y2Uj0" frameborder="0" allowfullscreen></iframe>
+              <p class="text-gray-400 text-sm mt-2">BIG surprend une équipe favorite.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="na-challengers" class="league-content hidden">
+        <h3 class="text-2xl font-bold mb-4">NA Challengers (Mineure - NA)</h3>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Classement</h4>
+          <div class="bg-gray-800 rounded-lg overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-blue-700">
+                  <th class="p-4">Position</th>
+                  <th class="p-4">Équipe</th>
+                  <th class="p-4">Matchs Joués</th>
+                  <th class="p-4">Victoires-Défaites</th>
+                  <th class="p-4">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-4">1</td><td class="p-4">Complexity</td><td class="p-4">6</td><td class="p-4">4-2</td><td class="p-4">12</td></tr>
+                <tr><td class="p-4">2</td><td class="p-4">Evil Geniuses</td><td class="p-4">6</td><td class="p-4">3-3</td><td class="p-4">9</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-8">
+          <h4 class="text-xl font-semibold mb-2">Articles</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">Complexity Gaming</h5>
+              <p class="text-gray-400 text-sm">22 Février 2025</p>
+              <p>Complexity surprend avec une victoire contre EG.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg">
+              <h5 class="text-lg font-semibold">Complexity’s Comeback</h5>
+              <iframe class="w-full h-64" src="https://www.youtube.com/embed/4gA2lZ2Kz0I" frameborder="0" allowfullscreen></iframe>
+              <p class="text-gray-400 text-sm mt-2">Retour épique contre EG.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rocket League Section -->
+  <section id="rl" class="container mx-auto py-12 hidden">
+    <h2 class="text-3xl font-semibold mb-8">Rocket League</h2>
+    <!-- Default League Ranking -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-4">Classement RLCS (Europe)</h3>
+      <div class="bg-gray-800 rounded-lg overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-blue-700">
+              <th class="p-4">Position</th>
+              <th class="p-4">Équipe</th>
+              <th class="p-4">Matchs Joués</th>
+              <th class="p-4">Victoires-Défaites</th>
+              <th class="p-4">Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="p-4">1</td><td class="p-4">Team BDS</td><td class="p-4">12</td><td class="p-4">10-2</td><td class="p-4">30</td></tr>
+            <tr><td class="p-4">2</td><td class="p-4">Vitality</td><td class="p-4">12</td><td class="p-4">9-3</td><td class="p-4">27</td></tr>
+            <tr><td class="p-4">3</td><
