@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pulse of Victory</title>
-  <!-- Lien Tailwind (à garder si dist/output.css fonctionne) -->
+  <!-- Lien Tailwind (optionnel, si dist/output.css fonctionne) -->
   <link rel="stylesheet" href="dist/output.css">
-  <!-- CDN Tabulator pour les tableaux -->
-  <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css">
   <style>
-    /* Styles de secours pour restaurer le thème bleu */
+    /* Styles inline pour thème bleu */
     body {
       background-color: #111827; /* Gris foncé */
       color: white;
@@ -43,7 +41,7 @@
       outline: none;
     }
     nav input:focus {
-      ring: 2px solid #3b82f6; /* Bleu clair */
+      box-shadow: 0 0 0 2px #3b82f6; /* Bleu clair */
     }
     nav ul {
       display: flex;
@@ -80,34 +78,6 @@
       padding: 1.5rem;
       border-radius: 0.5rem;
     }
-    .sub-tab {
-      background-color: #1e40af;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-    }
-    .sub-tab.active {
-      background-color: #2563eb; /* Bleu vif */
-      font-weight: bold;
-    }
-    .sub-tab:hover {
-      background-color: #3b82f6;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #1f2937;
-    }
-    th, td {
-      padding: 1rem;
-      text-align: left;
-    }
-    th {
-      background-color: #1e40af;
-    }
-    tr:hover {
-      background-color: #374151;
-    }
     #search-results {
       position: absolute;
       top: 100%;
@@ -126,9 +96,17 @@
     #search-results .result-item {
       padding: 10px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     #search-results .result-item:hover {
       background-color: #374151;
+    }
+    #search-results .result-item img {
+      width: 24px;
+      height: 24px;
+      margin-left: 10px;
     }
     .details-popup {
       display: none;
@@ -147,6 +125,15 @@
     .details-popup.active {
       display: block;
     }
+    .details-popup .team-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .details-popup .team-name img {
+      width: 24px;
+      height: 24px;
+    }
     .overlay {
       display: none;
       position: fixed;
@@ -163,6 +150,21 @@
     .section-hidden {
       display: none;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #374151;
+    }
+    th {
+      background-color: #1e40af;
+    }
+    tbody tr:hover {
+      background-color: #374151;
+    }
   </style>
 </head>
 <body>
@@ -172,7 +174,7 @@
       <div style="display: flex; align-items: center; gap: 1rem;">
         <h1>Pulse of Victory</h1>
         <div style="position: relative;">
-          <input type="text" id="search-bar" placeholder="Rechercher joueur, équipe, tournoi...">
+          <input type="text" id="search-bar" placeholder="Rechercher joueur, équipe...">
           <div id="search-results"></div>
         </div>
       </div>
@@ -181,7 +183,6 @@
         <li><a href="#cs2" class="nav-link">CS2</a></li>
         <li><a href="#rl" class="nav-link">Rocket League</a></li>
         <li><a href="#lol" class="nav-link">LoL</a></li>
-        <li><a href="#database" class="nav-link">Base de données</a></li>
         <li><a href="#about" class="nav-link">À propos</a></li>
       </ul>
     </div>
@@ -212,18 +213,100 @@
     </div>
   </section>
 
-  <!-- Database Section -->
-  <section id="database" class="section-hidden">
-    <h2>Base de données Esport</h2>
-    <p style="margin-bottom: 1rem;">Recherchez et filtrez les classements, matchs et tournois.</p>
-    <div id="esport-table"></div>
-    <div class="overlay" id="overlay"></div>
-    <div class="details-popup" id="details-popup">
-      <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Détails du match</h3>
-      <div id="popup-content"></div>
-      <button style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #2563eb; color: white; border-radius: 0.5rem;" onclick="closePopup()">Fermer</button>
+  <!-- CS2 Section -->
+  <section id="cs2" class="section-hidden">
+    <h2>Counter-Strike 2 (CS2)</h2>
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classement HLTV (14 Mai 2025)</h3>
+      <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+        <table>
+          <thead>
+            <tr style="background-color: #1e40af;">
+              <th>Position</th>
+              <th>Équipe</th>
+              <th>Points HLTV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Vitality</td><td>1000</td></tr>
+            <tr><td>2</td><td>Natus Vincere</td><td>920</td></tr>
+            <tr><td>3</td><td>G2 Esports</td><td>850</td></tr>
+            <tr><td>4</td><td>FaZe Clan</td><td>800</td></tr>
+            <tr><td>5</td><td>Team Spirit</td><td>780</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
+
+  <!-- Rocket League Section -->
+  <section id="rl" class="section-hidden">
+    <h2>Rocket League</h2>
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classement RLCS EU</h3>
+      <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+        <table>
+          <thead>
+            <tr style="background-color: #1e40af;">
+              <th>Position</th>
+              <th>Équipe</th>
+              <th>Victoires-Défaites</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Team BDS</td><td>12-2</td><td>36</td></tr>
+            <tr><td>2</td><td>Vitality</td><td>11-3</td><td>33</td></tr>
+            <tr><td>3</td><td>Karmine Corp</td><td>10-4</td><td>30</td></tr>
+            <tr><td>4</td><td>Team Falcons</td><td>9-5</td><td>27</td></tr>
+            <tr><td>5</td><td>G2 Esports</td><td>8-6</td><td>24</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- LoL Section -->
+  <section id="lol" class="section-hidden">
+    <h2>League of Legends (LoL)</h2>
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classement LEC/LCK</h3>
+      <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+        <table>
+          <thead>
+            <tr style="background-color: #1e40af;">
+              <th>Position</th>
+              <th>Équipe</th>
+              <th>Victoires-Défaites</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>T1</td><td>9-0</td><td>27</td></tr>
+            <tr><td>2</td><td>Gen.G</td><td>8-1</td><td>24</td></tr>
+            <tr><td>3</td><td>Karmine Corp</td><td>8-1</td><td>24</td></tr>
+            <tr><td>4</td><td>G2 Esports</td><td>7-2</td><td>21</td></tr>
+            <tr><td>5</td><td>Hanwha Life Esports</td><td>6-3</td><td>18</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section-hidden">
+    <h2>À propos</h2>
+    <p style="font-size: 1.125rem;">Pulse of Victory est dédié à la passion pour l’esport. Retrouvez les dernières actualités et classements.</p>
+    <p style="font-size: 1.125rem; margin-top: 1rem;">Créé par Hugo Linke, fan d’esport et de compétition.</p>
+  </section>
+
+  <!-- Pop-up pour résultats de recherche -->
+  <div class="overlay" id="overlay"></div>
+  <div class="details-popup" id="details-popup">
+    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Résultats de recherche</h3>
+    <div id="popup-content"></div>
+    <button style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #2563eb; color: white; border-radius: 0.5rem;" onclick="closePopup()">Fermer</button>
+  </div>
 
   <!-- Footer -->
   <footer style="background-color: #1e40af; padding: 1rem; text-align: center;">
@@ -231,133 +314,402 @@
   </footer>
 
   <!-- JavaScript -->
-  <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
   <script>
     // Base de données locale
     const database = [
+      // CS2 Players
       {
         type: "player",
         name: "ZywOo",
-        game: "CS2",
-        team: "Vitality",
-        stats: { rating: 1.45, clutches: 5 },
-        tournaments: ["ESL Pro League Season 20"],
-        matches: [
-          { date: "2025-05-10", opponent: "FaZe", score: "2-0", maps: ["Mirage (16-10)", "Nuke (16-12)"], vod: "#" }
+        games: [
+          {
+            game: "CS2",
+            team: "Vitality",
+            palmares: [
+              { tournament: "ESL Pro League Season 20", year: 2025, role: "AWPer" },
+              { tournament: "IEM Katowice 2025", year: 2025, role: "AWPer" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "sh1ro",
+        games: [
+          {
+            game: "CS2",
+            team: "Natus Vincere",
+            palmares: [
+              { tournament: "PGL Major Copenhagen 2024", year: 2024, role: "AWPer" },
+              { tournament: "ESL Pro League Season 20", year: 2024, role: "AWPer" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "m0NESY",
+        games: [
+          {
+            game: "CS2",
+            team: "G2 Esports",
+            palmares: [
+              { tournament: "IEM Cologne 2024", year: 2024, role: "AWPer" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "donk",
+        games: [
+          {
+            game: "CS2",
+            team: "Team Spirit",
+            palmares: [
+              { tournament: "BLAST Premier Spring 2024", year: 2024, role: "Rifler" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "ropz",
+        games: [
+          {
+            game: "CS2",
+            team: "FaZe Clan",
+            palmares: [
+              { tournament: "IEM Katowice 2024", year: 2024, role: "Rifler" }
+            ]
+          }
+        ]
+      },
+      // LoL Players
+      {
+        type: "player",
+        name: "Faker",
+        games: [
+          {
+            game: "LoL",
+            team: "T1",
+            palmares: [
+              { tournament: "Worlds 2024", year: 2024, role: "Mid" },
+              { tournament: "LCK Spring 2024", year: 2024, role: "Mid" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Chovy",
+        games: [
+          {
+            game: "LoL",
+            team: "Gen.G",
+            palmares: [
+              { tournament: "LCK Spring 2024", year: 2024, role: "Mid" },
+              { tournament: "MSI 2024", year: 2024, role: "Mid" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Caps",
+        games: [
+          {
+            game: "LoL",
+            team: "G2 Esports",
+            palmares: [
+              { tournament: "LEC Grand Slam 2024", year: 2024, role: "Mid" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Zeka",
+        games: [
+          {
+            game: "LoL",
+            team: "Hanwha Life Esports",
+            palmares: [
+              { tournament: "LCK Summer 2024", year: 2024, role: "Mid" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Viper",
+        games: [
+          {
+            game: "LoL",
+            team: "Hanwha Life Esports",
+            palmares: [
+              { tournament: "LCK Summer 2024", year: 2024, role: "ADC" }
+            ]
+          }
+        ]
+      },
+      // Rocket League Players
+      {
+        type: "player",
+        name: "Monkey Moon",
+        games: [
+          {
+            game: "Rocket League",
+            team: "Team BDS",
+            palmares: [
+              { tournament: "RLCS EU Spring 2025", year: 2025, role: "Main" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Zen",
+        games: [
+          {
+            game: "Rocket League",
+            team: "Vitality",
+            palmares: [
+              { tournament: "RLCS EU Spring 2025", year: 2025, role: "Main" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Rw9",
+        games: [
+          {
+            game: "Rocket League",
+            team: "Team Falcons",
+            palmares: [
+              { tournament: "Esports World Cup 2024", year: 2024, role: "Main" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Vatira",
+        games: [
+          {
+            game: "Rocket League",
+            team: "Karmine Corp",
+            palmares: [
+              { tournament: "RLCS EU Open Qualifiers 2024", year: 2024, role: "Main" }
+            ]
+          }
+        ]
+      },
+      {
+        type: "player",
+        name: "Atomic",
+        games: [
+          {
+            game: "Rocket League",
+            team: "G2 Esports",
+            palmares: [
+              { tournament: "RLCS Winter Major 2022", year: 2022, role: "Main" }
+            ]
+          }
+        ]
+      },
+      // CS2 Teams
+      {
+        type: "team",
+        name: "Natus Vincere",
+        logo: "https://liquipedia.net/commons/images/thumb/7/7e/Natus_Vincere_2020.png/64px-Natus_Vincere_2020.png",
+        games: [
+          {
+            game: "CS2",
+            roster: ["b1t", "sh1ro", "jL", "iM", "w0nderful"],
+            palmares: [
+              { tournament: "PGL Major Copenhagen 2024", year: 2024 },
+              { tournament: "ESL Pro League Season 20", year: 2024 },
+              { tournament: "IEM Rio 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "Vitality",
+        logo: "https://liquipedia.net/commons/images/thumb/9/9f/Team_Vitality_2020.png/64px-Team_Vitality_2020.png",
+        games: [
+          {
+            game: "CS2",
+            roster: ["ZywOo", "shox", "apEX", "Spinx", "flameZ"],
+            palmares: [
+              { tournament: "ESL Pro League Season 20", year: 2025 },
+              { tournament: "IEM Katowice 2025", year: 2025 }
+            ]
+          },
+          {
+            game: "Rocket League",
+            roster: ["Alpha54", "Radosin", "Zen"],
+            palmares: [
+              { tournament: "RLCS EU Spring 2025", year: 2025 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "G2 Esports",
+        logo: "https://liquipedia.net/commons/images/thumb/0/0c/G2_Esports_2019.png/64px-G2_Esports_2019.png",
+        games: [
+          {
+            game: "CS2",
+            roster: ["m0NESY", "huNter-", "HeavyGod", "nexa", "malbsMd"],
+            palmares: [
+              { tournament: "IEM Cologne 2024", year: 2024 }
+            ]
+          },
+          {
+            game: "LoL",
+            roster: ["BrokenBlade", "Skewmond", "Caps", "Hans Sama", "Labrov"],
+            palmares: [
+              { tournament: "LEC Grand Slam 2024", year: 2024 }
+            ]
+          },
+          {
+            game: "Rocket League",
+            roster: ["Atomic", "Chicago", "JKnaps"],
+            palmares: [
+              { tournament: "RLCS Winter Major 2022", year: 2022 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "FaZe Clan",
+        logo: "https://liquipedia.net/commons/images/thumb/3/3f/FaZe_Clan_2020.png/64px-FaZe_Clan_2020.png",
+        games: [
+          {
+            game: "CS2",
+            roster: ["karrigan", "ropz", "frozen", "rain", "broky"],
+            palmares: [
+              { tournament: "IEM Katowice 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "Team Spirit",
+        logo: "https://liquipedia.net/commons/images/thumb/2/2a/Team_Spirit_2021.png/64px-Team_Spirit_2021.png",
+        games: [
+          {
+            game: "CS2",
+            roster: ["donk", "chopper", "magixx", "zont1x", "sh1ro"],
+            palmares: [
+              { tournament: "BLAST Premier Spring 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      // LoL Teams
+      {
+        type: "team",
+        name: "T1",
+        logo: "https://liquipedia.net/commons/images/thumb/5/5b/T1_2020.png/64px-T1_2020.png",
+        games: [
+          {
+            game: "LoL",
+            roster: ["Zeus", "Oner", "Faker", "Gumayusi", "Keria"],
+            palmares: [
+              { tournament: "Worlds 2024", year: 2024 },
+              { tournament: "LCK Spring 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "Gen.G",
+        logo: "https://liquipedia.net/commons/images/thumb/8/8e/Gen.G_2020.png/64px-Gen.G_2020.png",
+        games: [
+          {
+            game: "LoL",
+            roster: ["Kiin", "Canyon", "Chovy", "Peyz", "Lehends"],
+            palmares: [
+              { tournament: "LCK Spring 2024", year: 2024 },
+              { tournament: "MSI 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "Hanwha Life Esports",
+        logo: "https://liquipedia.net/commons/images/thumb/4/4a/Hanwha_Life_Esports_2020.png/64px-Hanwha_Life_Esports_2020.png",
+        games: [
+          {
+            game: "LoL",
+            roster: ["Kingen", "Peanut", "Zeka", "Viper", "Delight"],
+            palmares: [
+              { tournament: "LCK Summer 2024", year: 2024 }
+            ]
+          }
         ]
       },
       {
         type: "team",
         name: "Karmine Corp",
-        game: "LoL",
-        region: "EU",
-        league: "LEC",
-        position: 1,
-        wins: 8,
-        losses: 1,
-        points: 24,
-        players: ["Vladi", "Saken", "Upset"],
-        tournaments: ["LEC Spring 2025"],
-        matches: [
-          { date: "2025-04-10", opponent: "Fnatic", score: "2-1", maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"], vod: "#" }
+        logo: "https://liquipedia.net/commons/images/thumb/2/2f/Karmine_Corp_2021.png/64px-Karmine_Corp_2021.png",
+        games: [
+          {
+            game: "LoL",
+            roster: ["Vladi", "Saken", "Upset", "Cabochard", "Targamas"],
+            palmares: [
+              { tournament: "LEC Spring 2025", year: 2025 }
+            ]
+          },
+          {
+            game: "Rocket League",
+            roster: ["Vatira", "Atow", "ExoTiiK"],
+            palmares: [
+              { tournament: "RLCS EU Open Qualifiers 2024", year: 2024 }
+            ]
+          }
+        ]
+      },
+      // Rocket League Teams
+      {
+        type: "team",
+        name: "Team BDS",
+        logo: "https://liquipedia.net/commons/images/thumb/1/1e/Team_BDS_2020.png/64px-Team_BDS_2020.png",
+        games: [
+          {
+            game: "Rocket League",
+            roster: ["Monkey Moon", "M0nkey M00n", "ExoTiiK"],
+            palmares: [
+              { tournament: "RLCS EU Spring 2025", year: 2025 }
+            ]
+          }
         ]
       },
       {
-        type: "tournament",
-        name: "LEC Spring 2025",
-        game: "LoL",
-        region: "EU",
-        teams: ["Karmine Corp", "Fnatic", "G2 Esports"],
-        matches: [
-          { date: "2025-04-10", teams: ["Karmine Corp", "Fnatic"], score: "2-1", vod: "#" }
+        type: "team",
+        name: "Team Falcons",
+        logo: "https://liquipedia.net/commons/images/thumb/6/6c/Team_Falcons_2021.png/64px-Team_Falcons_2021.png",
+        games: [
+          {
+            game: "Rocket League",
+            roster: ["Rw9", "Kiileerrz", "trk511"],
+            palmares: [
+              { tournament: "Esports World Cup 2024", year: 2024 }
+            ]
+          }
         ]
       }
     ];
-
-    // Données pour Tabulator
-    const jsonData = [
-      {
-        game: "LoL",
-        region: "EU",
-        league: "LEC",
-        team: "Karmine Corp",
-        position: 1,
-        wins: 8,
-        losses: 1,
-        points: 24,
-        matches: [
-          { date: "2025-04-10", opponent: "Fnatic", score: "2-1", maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"], vod: "#" }
-        ],
-        tournament: "LEC Spring 2025"
-      }
-    ];
-
-    // Initialiser Tabulator
-    const table = new Tabulator("#esport-table", {
-      data: jsonData,
-      columns: [
-        { title: "Jeu", field: "game", sorter: "string" },
-        { title: "Équipe", field: "team", sorter: "string" },
-        { title: "Région", field: "region", sorter: "string" },
-        { title: "Ligue", field: "league", sorter: "string" },
-        { title: "Position", field: "position", sorter: "number" },
-        { title: "Points", field: "points", sorter: "number" },
-        { title: "Tournoi", field: "tournament", sorter: "string" },
-        {
-          title: "Détails",
-          field: "matches",
-          formatter: function(cell) {
-            return '<button style="padding: 0.5rem 1rem; background-color: #2563eb; color: white; border-radius: 0.5rem;">Voir matchs</button>';
-          },
-          cellClick: function(e, cell) {
-            const rowData = cell.getRow().getData();
-            showMatchDetails(rowData);
-          }
-        }
-      ],
-      layout: "fitColumns",
-      pagination: "local",
-      paginationSize: 10,
-    });
-
-    // Afficher les détails du match
-    function showMatchDetails(data) {
-      const popup = document.getElementById("details-popup");
-      const popupContent = document.getElementById("popup-content");
-      const overlay = document.getElementById("overlay");
-      
-      let content = `<p><strong>Équipe:</strong> ${data.team}</p>`;
-      content += `<p><strong>Tournoi:</strong> ${data.tournament}</p>`;
-      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Matchs:</h4>`;
-      
-      if (data.matches && data.matches.length > 0) {
-        data.matches.forEach(match => {
-          content += `
-            <div style="margin-bottom: 1rem;">
-              <p><strong>Date:</strong> ${match.date}</p>
-              <p><strong>Adversaire:</strong> ${match.opponent}</p>
-              <p><strong>Score:</strong> ${match.score}</p>
-              ${match.maps ? `<p><strong>Cartes:</strong> ${match.maps.join(", ")}</p>` : ""}
-              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" style="color: #3b82f6;">Regarder</a></p>` : ""}
-            </div>
-          `;
-        });
-      } else {
-        content += `<p>Aucun match disponible.</p>`;
-      }
-      
-      popupContent.innerHTML = content;
-      popup.classList.add("active");
-      overlay.classList.add("active");
-    }
-
-    // Fermer la pop-up
-    function closePopup() {
-      const popup = document.getElementById("details-popup");
-      const overlay = document.getElementById("overlay");
-      popup.classList.remove("active");
-      overlay.classList.remove("active");
-    }
 
     // Gestion de la barre de recherche
     const searchBar = document.getElementById("search-bar");
@@ -372,8 +724,7 @@
 
       const results = database.filter(item =>
         item.name.toLowerCase().includes(query) ||
-        (item.players && item.players.some(player => player.toLowerCase().includes(query))) ||
-        (item.teams && item.teams.some(team => team.toLowerCase().includes(query)))
+        (item.games && item.games.some(game => game.roster && game.roster.some(player => player.toLowerCase().includes(query))))
       );
 
       if (results.length === 0) {
@@ -383,8 +734,11 @@
           const div = document.createElement("div");
           div.className = "result-item";
           div.innerHTML = `
-            <p><strong>${item.type === "player" ? "Joueur" : item.type === "team" ? "Équipe" : "Tournoi"}:</strong> ${item.name}</p>
-            <p><strong>Jeu:</strong> ${item.game}</p>
+            <div>
+              <p><strong>${item.type === "player" ? "Joueur" : "Équipe"}:</strong> ${item.name}</p>
+              <p><strong>Jeu(x):</strong> ${item.games.map(g => g.game).join(", ")}</p>
+            </div>
+            ${item.type === "team" && item.logo ? `<img src="${item.logo}" alt="${item.name} logo">` : ""}
           `;
           div.addEventListener("click", () => displaySearchResult(item));
           searchResults.appendChild(div);
@@ -402,45 +756,46 @@
 
     // Afficher les détails du résultat
     function displaySearchResult(item) {
-      showSection("database");
       const popup = document.getElementById("details-popup");
       const popupContent = document.getElementById("popup-content");
       const overlay = document.getElementById("overlay");
 
-      let content = `<p><strong>${item.type === "player" ? "Joueur" : item.type === "team" ? "Équipe" : "Tournoi"}:</strong> ${item.name}</p>`;
-      content += `<p><strong>Jeu:</strong> ${item.game}</p>`;
+      let content = `
+        <div class="team-name">
+          <p><strong>${item.type === "player" ? "Joueur" : "Équipe"}:</strong> ${item.name}</p>
+          ${item.type === "team" && item.logo ? `<img src="${item.logo}" alt="${item.name} logo">` : ""}
+        </div>
+      `;
 
       if (item.type === "player") {
-        content += `<p><strong>Équipe:</strong> ${item.team}</p>`;
-        content += `<p><strong>Statistiques:</strong> ${JSON.stringify(item.stats, null, 2).replace(/[{},]/g, "").trim()}</p>`;
-      } else if (item.type === "team") {
-        content += `<p><strong>Région:</strong> ${item.region}</p>`;
-        content += `<p><strong>Ligue:</strong> ${item.league}</p>`;
-        content += `<p><strong>Position:</strong> ${item.position}</p>`;
-        content += `<p><strong>Joueurs:</strong> ${item.players.join(", ")}</p>`;
-      } else if (item.type === "tournament") {
-        content += `<p><strong>Région:</strong> ${item.region}</p>`;
-        content += `<p><strong>Équipes:</strong> ${item.teams.join(", ")}</p>`;
-      }
-
-      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Tournois:</h4>`;
-      content += `<p>${item.tournaments.join(", ")}</p>`;
-
-      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Matchs:</h4>`;
-      if (item.matches && item.matches.length > 0) {
-        item.matches.forEach(match => {
+        content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Palmarès par jeu:</h4>`;
+        item.games.forEach(game => {
           content += `
             <div style="margin-bottom: 1rem;">
-              <p><strong>Date:</strong> ${match.date}</p>
-              ${match.opponent ? `<p><strong>Adversaire:</strong> ${match.opponent}</p>` : `<p><strong>Équipes:</strong> ${match.teams.join(" vs ")}</p>`}
-              <p><strong>Score:</strong> ${match.score}</p>
-              ${match.maps ? `<p><strong>Cartes:</strong> ${match.maps.join(", ")}</p>` : ""}
-              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" style="color: #3b82f6;">Regarder</a></p>` : ""}
+              <p><strong>Jeu:</strong> ${game.game}</p>
+              <p><strong>Équipe:</strong> ${game.team}</p>
+              <p><strong>Rôle:</strong> ${game.palmares[0]?.role || "N/A"}</p>
+              <p><strong>Palmarès:</strong></p>
+              ${game.palmares.length > 0 ? 
+                `<ul>${game.palmares.map(p => `<li>${p.tournament} (${p.year})</li>`).join("")}</ul>` : 
+                "<p>Aucun titre</p>"}
             </div>
           `;
         });
-      } else {
-        content += `<p>Aucun match disponible.</p>`;
+      } else if (item.type === "team") {
+        content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Palmarès et roster par jeu:</h4>`;
+        item.games.forEach(game => {
+          content += `
+            <div style="margin-bottom: 1rem;">
+              <p><strong>Jeu:</strong> ${game.game}</p>
+              <p><strong>Roster:</strong> ${game.roster.join(", ")}</p>
+              <p><strong>Palmarès:</strong></p>
+              ${game.palmares.length > 0 ? 
+                `<ul>${game.palmares.map(p => `<li>${p.tournament} (${p.year})</li>`).join("")}</ul>` : 
+                "<p>Aucun titre</p>"}
+            </div>
+          `;
+        });
       }
 
       popupContent.innerHTML = content;
@@ -448,6 +803,14 @@
       overlay.classList.add("active");
       searchResults.classList.remove("active");
       searchBar.value = "";
+    }
+
+    // Fermer la pop-up
+    function closePopup() {
+      const popup = document.getElementById("details-popup");
+      const overlay = document.getElementById("overlay");
+      popup.classList.remove("active");
+      overlay.classList.remove("active");
     }
 
     // Navigation
