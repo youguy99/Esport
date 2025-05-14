@@ -4,31 +4,130 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pulse of Victory</title>
+  <!-- Lien Tailwind (à garder si dist/output.css fonctionne) -->
   <link rel="stylesheet" href="dist/output.css">
+  <!-- CDN Tabulator pour les tableaux -->
   <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css">
   <style>
-    .sub-tab.active {
-      background-color: #2563eb;
+    /* Styles de secours pour restaurer le thème bleu */
+    body {
+      background-color: #111827; /* Gris foncé */
       color: white;
+      font-family: sans-serif;
+      margin: 0;
+    }
+    nav {
+      background-color: #1e40af; /* Bleu foncé */
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 {
+      font-size: 1.5rem;
       font-weight: bold;
     }
-    .league-content:not(.hidden) {
-      display: block;
+    nav input {
+      background-color: #4b5563; /* Gris moyen */
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      outline: none;
+    }
+    nav input:focus {
+      ring: 2px solid #3b82f6; /* Bleu clair */
+    }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul a {
+      color: white;
+      text-decoration: none;
+    }
+    nav ul a:hover {
+      color: #93c5fd; /* Bleu clair */
+    }
+    section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+    section h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: #1f2937; /* Gris foncé */
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+    }
+    .sub-tab {
+      background-color: #1e40af;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    .sub-tab.active {
+      background-color: #2563eb; /* Bleu vif */
+      font-weight: bold;
+    }
+    .sub-tab:hover {
+      background-color: #3b82f6;
     }
     table {
-      min-width: 100%;
-    }
-    .section-hidden {
-      display: none;
-    }
-    .tabulator .tabulator-header {
-      background-color: #1e40af;
-      color: white;
-    }
-    .tabulator .tabulator-row {
+      width: 100%;
+      border-collapse: collapse;
       background-color: #1f2937;
     }
-    .tabulator .tabulator-row:hover {
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+    th {
+      background-color: #1e40af;
+    }
+    tr:hover {
+      background-color: #374151;
+    }
+    #search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #1f2937;
+      border-radius: 0 0 8px 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+    #search-results.active {
+      display: block;
+    }
+    #search-results .result-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+    #search-results .result-item:hover {
       background-color: #374151;
     }
     .details-popup {
@@ -61,466 +160,80 @@
     .overlay.active {
       display: block;
     }
-    #search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background-color: #1f2937;
-      border-radius: 0 0 8px 8px;
-      max-height: 300px;
-      overflow-y: auto;
-      z-index: 1000;
+    .section-hidden {
       display: none;
-    }
-    #search-results.active {
-      display: block;
-    }
-    #search-results .result-item {
-      padding: 10px;
-      cursor: pointer;
-    }
-    #search-results .result-item:hover {
-      background-color: #374151;
     }
   </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body>
   <!-- Navigation -->
-  <nav class="bg-blue-800 p-4 shadow-md sticky top-0 z-10">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-4">
-        <h1 class="text-2xl font-bold">Pulse of Victory</h1>
-        <div class="relative">
-          <input type="text" id="search-bar" class="bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher joueur, équipe, tournoi...">
-          <div id="search-results" class="hidden"></div>
+  <nav>
+    <div class="container">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <h1>Pulse of Victory</h1>
+        <div style="position: relative;">
+          <input type="text" id="search-bar" placeholder="Rechercher joueur, équipe, tournoi...">
+          <div id="search-results"></div>
         </div>
       </div>
-      <ul class="flex space-x-6">
-        <li><a href="#home" class="nav-link hover:text-blue-300">Accueil</a></li>
-        <li><a href="#cs2" class="nav-link hover:text-blue-300">CS2</a></li>
-        <li><a href="#rl" class="nav-link hover:text-blue-300">Rocket League</a></li>
-        <li><a href="#lol" class="nav-link hover:text-blue-300">LoL</a></li>
-        <li><a href="#database" class="nav-link hover:text-blue-300">Base de données</a></li>
-        <li><a href="#about" class="nav-link hover:text-blue-300">À propos</a></li>
+      <ul>
+        <li><a href="#home" class="nav-link">Accueil</a></li>
+        <li><a href="#cs2" class="nav-link">CS2</a></li>
+        <li><a href="#rl" class="nav-link">Rocket League</a></li>
+        <li><a href="#lol" class="nav-link">LoL</a></li>
+        <li><a href="#database" class="nav-link">Base de données</a></li>
+        <li><a href="#about" class="nav-link">À propos</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Home Section -->
-  <section id="home" class="container mx-auto py-12">
-    <h2 class="text-4xl font-bold text-center mb-8">Actualités Esport</h2>
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-4">Dernières Actualités</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">Karmine Corp domine la LEC</h4>
-          <p class="text-gray-400 text-sm">14 Mai 2025</p>
+  <section id="home">
+    <h2>Actualités Esport</h2>
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Dernières Actualités</h3>
+      <div class="grid">
+        <div class="card">
+          <h4 style="font-size: 1.125rem; font-weight: 600;">Karmine Corp domine la LEC</h4>
+          <p style="color: #9ca3af; font-size: 0.875rem;">14 Mai 2025</p>
           <p>KC termine la saison régulière en tête avec un record de 8-1.</p>
         </div>
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">Vitality remporte l’ESL Pro League</h4>
-          <p class="text-gray-400 text-sm">15 Mai 2025</p>
+        <div class="card">
+          <h4 style="font-size: 1.125rem; font-weight: 600;">Vitality remporte l’ESL Pro League</h4>
+          <p style="color: #9ca3af; font-size: 0.875rem;">15 Mai 2025</p>
           <p>ZywOo et Vitality dominent FaZe en finale.</p>
         </div>
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">BDS brille en RLCS</h4>
-          <p class="text-gray-400 text-sm">10 Mai 2025</p>
+        <div class="card">
+          <h4 style="font-size: 1.125rem; font-weight: 600;">BDS brille en RLCS</h4>
+          <p style="color: #9ca3af; font-size: 0.875rem;">10 Mai 2025</p>
           <p>Team BDS remporte le Major de printemps EU.</p>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h3 class="text-2xl font-semibold mb-4">Moments Forts</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">KC vs Fnatic (LoL)</h4>
-          <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-          <p class="text-gray-400 text-sm mt-2">Victoire 2-1 de KC contre Fnatic.</p>
-        </div>
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">ZywOo Clutch (CS2)</h4>
-          <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-          <p class="text-gray-400 text-sm mt-2">Clutch légendaire de ZywOo contre NAVI.</p>
-        </div>
-        <div class="bg-gray-800 p-6 rounded-lg">
-          <h4 class="text-lg font-semibold">BDS Aerial Goal (RL)</h4>
-          <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-          <p class="text-gray-400 text-sm mt-2">But spectaculaire de BDS en RLCS.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CS2 Section -->
-  <section id="cs2" class="container mx-auto py-12 section-hidden">
-    <h2 class="text-3xl font-semibold mb-8">Counter-Strike 2 (CS2)</h2>
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-4">Classement HLTV (14 Mai 2025)</h3>
-      <div class="bg-gray-800 rounded-lg overflow-x-auto">
-        <table class="w-full text-left">
-          <thead>
-            <tr class="bg-blue-700">
-              <th class="p-4">Position</th>
-              <th class="p-4">Équipe</th>
-              <th class="p-4">Points HLTV</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="p-4">1</td><td class="p-4">Vitality</td><td class="p-4">1000</td></tr>
-            <tr><td class="p-4">2</td><td class="p-4">Spirit</td><td class="p-4">849</td></tr>
-            <tr><td class="p-4">3</td><td class="p-4">MOUZ</td><td class="p-4">629</td></tr>
-            <tr><td class="p-4">4</td><td class="p-4">Aurora</td><td class="p-4">544</td></tr>
-            <tr><td class="p-4">5</td><td class="p-4">Natus Vincere</td><td class="p-4">534</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-4">Joueur de la semaine</h3>
-      <div class="bg-gray-800 p-6 rounded-lg">
-        <h4 class="text-lg font-semibold">ZywOo (Vitality)</h4>
-        <p class="text-gray-400 text-sm">14 Mai 2025</p>
-        <p>ZywOo a dominé l’ESL Pro League avec un rating de 1.45 et plusieurs clutches décisifs.</p>
-        <iframe class="w-full h-64 mt-4" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        <p class="text-gray-400 text-sm mt-2">Clutch 1v3 de ZywOo contre FaZe sur Mirage.</p>
-      </div>
-    </div>
-    <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="esl-pro-league" data-section="cs2">ESL Pro League (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="blast-premier" data-section="cs2">Blast Premier (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="na-challengers" data-section="cs2">NA Challengers (NA)</button>
-    </div>
-    <div id="cs2-leagues">
-      <div id="esl-pro-league" class="league-content">
-        <h3 class="text-2xl font-bold mb-4">ESL Pro League (Europe)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Vitality</td><td class="p-4">8-2</td><td class="p-4">24</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Natus Vincere</td><td class="p-4">7-3</td><td class="p-4">21</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">FaZe</td><td class="p-4">6-4</td><td class="p-4">18</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Articles</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">Vitality triomphe</h5>
-              <p class="text-gray-400 text-sm">10 Mai 2025</p>
-              <p>ZywOo mène Vitality à une victoire 2-0 contre FaZe.</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">ZywOo 1v3 Clutch</h5>
-              <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-              <p class="text-gray-400 text-sm mt-2">Clutch légendaire sur Mirage.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="blast-premier" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">Blast Premier (Europe)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">FaZe</td><td class="p-4">6-2</td><td class="p-4">18</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Astralis</td><td class="p-4">5-3</td><td class="p-4">15</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div id="na-challengers" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">NA Challengers (Amérique du Nord)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Complexity</td><td class="p-4">4-2</td><td class="p-4">12</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Evil Geniuses</td><td class="p-4">3-3</td><td class="p-4">9</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Rocket League Section -->
-  <section id="rl" class="container mx-auto py-12 section-hidden">
-    <h2 class="text-3xl font-semibold mb-8">Rocket League</h2>
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-4">Joueur de la semaine</h3>
-      <div class="bg-gray-800 p-6 rounded-lg">
-        <h4 class="text-lg font-semibold">Monkey Moon (Team BDS)</h4>
-        <p class="text-gray-400 text-sm">14 Mai 2025</p>
-        <p>Monkey Moon a brillé avec des aerials spectaculaires et des passes décisives en RLCS EU.</p>
-        <iframe class="w-full h-64 mt-4" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        <p class="text-gray-400 text-sm mt-2">Aerial goal incroyable de Monkey Moon.</p>
-      </div>
-    </div>
-    <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="rlcs-eu" data-section="rl">RLCS (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-na" data-section="rl">RLCS (NA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-oce" data-section="rl">RLCS (OCE)</button>
-    </div>
-    <div id="rl-leagues">
-      <div id="rlcs-eu" class="league-content">
-        <h3 class="text-2xl font-bold mb-4">RLCS (Europe)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Team BDS</td><td class="p-4">12-2</td><td class="p-4">36</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Karmine Corp</td><td class="p-4">10-4</td><td class="p-4">30</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">Vitality</td><td class="p-4">9-5</td><td class="p-4">27</td></tr>
-                <tr><td class="p-4">4</td><td class="p-4">Gentle Mates</td><td class="p-4">8-6</td><td class="p-4">24</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Articles</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">Team BDS</h5>
-              <p class="text-gray-400 text-sm">10 Mai 2025</p>
-              <p>BDS remporte le Major de printemps.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="rlcs-na" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">RLCS (Amérique du Nord)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">G2 Esports</td><td class="p-4">11-3</td><td class="p-4">33</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">NRG Esports</td><td class="p-4">10-4</td><td class="p-4">30</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">Spacestation</td><td class="p-4">8-6</td><td class="p-4">24</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div id="rlcs-oce" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">RLCS (Océanie)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Pioneers</td><td class="p-4">6-2</td><td class="p-4">18</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Ground Zero</td><td class="p-4">5-3</td><td class="p-4">15</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LoL Section -->
-  <section id="lol" class="container mx-auto py-12 section-hidden">
-    <h2 class="text-3xl font-semibold mb-8">League of Legends (LoL)</h2>
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-4">Joueur de la semaine</h3>
-      <div class="bg-gray-800 p-6 rounded-lg">
-        <h4 class="text-lg font-semibold">Vladi (Karmine Corp)</h4>
-        <p class="text-gray-400 text-sm">14 Mai 2025</p>
-        <p>Vladi a dominé la LEC avec un KDA de 6.8 et des performances clutch contre Fnatic.</p>
-        <iframe class="w-full h-64 mt-4" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        <p class="text-gray-400 text-sm mt-2">Quadra kill de Vladi contre Fnatic.</p>
-      </div>
-    </div>
-    <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="lec" data-section="lol">LEC (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lck" data-section="lol">LCK (Asie)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lcs" data-section="lol">LCS (NA)</button>
-    </div>
-    <div id="lol-leagues">
-      <div id="lec" class="league-content">
-        <h3 class="text-2xl font-bold mb-4">LEC (Europe)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Karmine Corp</td><td class="p-4">8-1</td><td class="p-4">24</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Fnatic</td><td class="p-4">7-2</td><td class="p-4">21</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">Movistar KOI</td><td class="p-4">6-3</td><td class="p-4">18</td></tr>
-                <tr><td class="p-4">4</td><td class="p-4">G2 Esports</td><td class="p-4">6-3</td><td class="p-4">18</td></tr>
-                <tr><td class="p-4">5</td><td class="p-4">GIANTX</td><td class="p-4">5-4</td><td class="p-4">15</td></tr>
-                <tr><td class="p-4">6</td><td class="p-4">Team Vitality</td><td class="p-4">4-5</td><td class="p-4">12</td></tr>
-                <tr><td class="p-4">7</td><td class="p-4">Team Heretics</td><td class="p-4">4-5</td><td class="p-4">12</td></tr>
-                <tr><td class="p-4">8</td><td class="p-4">Team BDS</td><td class="p-4">3-6</td><td class="p-4">9</td></tr>
-                <tr><td class="p-4">9</td><td class="p-4">SK Gaming</td><td class="p-4">2-7</td><td class="p-4">6</td></tr>
-                <tr><td class="p-4">10</td><td class="p-4">Rogue</td><td class="p-4">1-8</td><td class="p-4">3</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Articles</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">Karmine Corp en tête</h5>
-              <p class="text-gray-400 text-sm">14 Mai 2025</p>
-              <p>KC domine la saison régulière avec un record de 8-1.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="lck" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">LCK (Asie)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">T1</td><td class="p-4">14-2</td><td class="p-4">42</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">Gen.G</td><td class="p-4">12-4</td><td class="p-4">36</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">HLE</td><td class="p-4">10-6</td><td class="p-4">30</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div id="lcs" class="league-content hidden">
-        <h3 class="text-2xl font-bold mb-4">LCS (Amérique du Nord)</h3>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Classement</h4>
-          <div class="bg-gray-800 rounded-lg overflow-x-auto">
-            <table class="w-full text-left">
-              <thead>
-                <tr class="bg-blue-700">
-                  <th class="p-4">Position</th>
-                  <th class="p-4">Équipe</th>
-                  <th class="p-4">Victoires-Défaites</th>
-                  <th class="p-4">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td class="p-4">1</td><td class="p-4">Cloud9</td><td class="p-4">12-4</td><td class="p-4">36</td></tr>
-                <tr><td class="p-4">2</td><td class="p-4">FlyQuest</td><td class="p-4">10-6</td><td class="p-4">30</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">Team Liquid</td><td class="p-4">9-7</td><td class="p-4">27</td></tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Database Section -->
-  <section id="database" class="container mx-auto py-12 section-hidden">
-    <h2 class="text-3xl font-semibold mb-8">Base de données Esport</h2>
-    <p class="mb-4">Recherchez et filtrez les classements, matchs et tournois pour CS2, Rocket League et LoL.</p>
+  <section id="database" class="section-hidden">
+    <h2>Base de données Esport</h2>
+    <p style="margin-bottom: 1rem;">Recherchez et filtrez les classements, matchs et tournois.</p>
     <div id="esport-table"></div>
-    <p class="mt-4">Pour plus de détails, consultez <a href="https://www.hltv.org" class="text-blue-400 hover:underline">HLTV</a> (CS2), <a href="https://tips.gg" class="text-blue-400 hover:underline">Tips.GG</a> (tous jeux), ou <a href="https://lolesports.com" class="text-blue-400 hover:underline">LoL Esports</a> (LoL).</p>
     <div class="overlay" id="overlay"></div>
     <div class="details-popup" id="details-popup">
-      <h3 class="text-xl font-semibold mb-4">Détails du match</h3>
+      <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Détails du match</h3>
       <div id="popup-content"></div>
-      <button class="mt-4 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-500" onclick="closePopup()">Fermer</button>
+      <button style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #2563eb; color: white; border-radius: 0.5rem;" onclick="closePopup()">Fermer</button>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="container mx-auto py-12 section-hidden">
-    <h2 class="text-3xl font-semibold mb-8">À propos</h2>
-    <p class="text-lg">Pulse of Victory est dédié à la passion pour l’esport. Retrouvez les dernières actualités, classements, joueurs de la semaine, et une base de données interactive.</p>
-    <p class="text-lg mt-4">Créé par Hugo Linke, fan d’esport et de compétition.</p>
-  </section>
-
   <!-- Footer -->
-  <footer class="bg-blue-800 p-4 text-center">
+  <footer style="background-color: #1e40af; padding: 1rem; text-align: center;">
     <p>© 2025 Pulse of Victory. Tous droits réservés.</p>
   </footer>
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
   <script>
-    // Base de données locale (simulée)
+    // Base de données locale
     const database = [
       {
         type: "player",
@@ -528,89 +241,9 @@
         game: "CS2",
         team: "Vitality",
         stats: { rating: 1.45, clutches: 5 },
-        tournaments: ["ESL Pro League Season 20", "IEM Katowice 2025"],
+        tournaments: ["ESL Pro League Season 20"],
         matches: [
-          {
-            date: "2025-05-10",
-            opponent: "FaZe",
-            score: "2-0",
-            maps: ["Mirage (16-10)", "Nuke (16-12)"],
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "player",
-        name: "Monkey Moon",
-        game: "Rocket League",
-        team: "Team BDS",
-        stats: { goals: 12, assists: 8 },
-        tournaments: ["RLCS EU Spring 2025", "RLCS World Championship"],
-        matches: [
-          {
-            date: "2025-05-12",
-            opponent: "Karmine Corp",
-            score: "4-2",
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "player",
-        name: "Vladi",
-        game: "LoL",
-        team: "Karmine Corp",
-        stats: { kda: 6.8, role: "Mid" },
-        tournaments: ["LEC Spring 2025"],
-        matches: [
-          {
-            date: "2025-04-10",
-            opponent: "Fnatic",
-            score: "2-1",
-            maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"],
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "team",
-        name: "Vitality",
-        game: "CS2",
-        region: "EU",
-        league: "ESL Pro League",
-        position: 1,
-        points: 1000,
-        players: ["ZywOo", "shox", "apEX"],
-        tournaments: ["ESL Pro League Season 20", "IEM Katowice 2025"],
-        matches: [
-          {
-            date: "2025-05-10",
-            opponent: "FaZe",
-            score: "2-0",
-            maps: ["Mirage (16-10)", "Nuke (16-12)"],
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "team",
-        name: "Team BDS",
-        game: "Rocket League",
-        region: "EU",
-        league: "RLCS",
-        position: 1,
-        wins: 12,
-        losses: 2,
-        points: 36,
-        players: ["Monkey Moon", "M0nkey M00n", "Extra"],
-        tournaments: ["RLCS EU Spring 2025"],
-        matches: [
-          {
-            date: "2025-05-12",
-            opponent: "Karmine Corp",
-            score: "4-2",
-            vod: "https://youtube.com/..."
-          }
+          { date: "2025-05-10", opponent: "FaZe", score: "2-0", maps: ["Mirage (16-10)", "Nuke (16-12)"], vod: "#" }
         ]
       },
       {
@@ -626,13 +259,7 @@
         players: ["Vladi", "Saken", "Upset"],
         tournaments: ["LEC Spring 2025"],
         matches: [
-          {
-            date: "2025-04-10",
-            opponent: "Fnatic",
-            score: "2-1",
-            maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"],
-            vod: "https://youtube.com/..."
-          }
+          { date: "2025-04-10", opponent: "Fnatic", score: "2-1", maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"], vod: "#" }
         ]
       },
       {
@@ -642,47 +269,12 @@
         region: "EU",
         teams: ["Karmine Corp", "Fnatic", "G2 Esports"],
         matches: [
-          {
-            date: "2025-04-10",
-            teams: ["Karmine Corp", "Fnatic"],
-            score: "2-1",
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "tournament",
-        name: "ESL Pro League Season 20",
-        game: "CS2",
-        region: "EU",
-        teams: ["Vitality", "FaZe", "Natus Vincere"],
-        matches: [
-          {
-            date: "2025-05-10",
-            teams: ["Vitality", "FaZe"],
-            score: "2-0",
-            vod: "https://youtube.com/..."
-          }
-        ]
-      },
-      {
-        type: "tournament",
-        name: "RLCS EU Spring 2025",
-        game: "Rocket League",
-        region: "EU",
-        teams: ["Team BDS", "Karmine Corp", "Vitality"],
-        matches: [
-          {
-            date: "2025-05-12",
-            teams: ["Team BDS", "Karmine Corp"],
-            score: "4-2",
-            vod: "https://youtube.com/..."
-          }
+          { date: "2025-04-10", teams: ["Karmine Corp", "Fnatic"], score: "2-1", vod: "#" }
         ]
       }
     ];
 
-    // Données pour Tabulator (exemple enrichi)
+    // Données pour Tabulator
     const jsonData = [
       {
         game: "LoL",
@@ -694,59 +286,9 @@
         losses: 1,
         points: 24,
         matches: [
-          {
-            date: "2025-04-10",
-            opponent: "Fnatic",
-            score: "2-1",
-            maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"],
-            vod: "https://youtube.com/..."
-          },
-          {
-            date: "2025-04-12",
-            opponent: "G2 Esports",
-            score: "2-0",
-            maps: ["Game 1: KC win", "Game 2: KC win"],
-            vod: "https://youtube.com/..."
-          }
+          { date: "2025-04-10", opponent: "Fnatic", score: "2-1", maps: ["Game 1: KC win", "Game 2: FNC win", "Game 3: KC win"], vod: "#" }
         ],
         tournament: "LEC Spring 2025"
-      },
-      {
-        game: "CS2",
-        region: "EU",
-        league: "ESL Pro League",
-        team: "Vitality",
-        position: 1,
-        points: 1000,
-        matches: [
-          {
-            date: "2025-05-10",
-            opponent: "FaZe",
-            score: "2-0",
-            maps: ["Mirage (16-10)", "Nuke (16-12)"],
-            vod: "https://youtube.com/..."
-          }
-        ],
-        tournament: "ESL Pro League Season 20"
-      },
-      {
-        game: "Rocket League",
-        region: "EU",
-        league: "RLCS",
-        team: "Team BDS",
-        position: 1,
-        wins: 12,
-        losses: 2,
-        points: 36,
-        matches: [
-          {
-            date: "2025-05-12",
-            opponent: "Karmine Corp",
-            score: "4-2",
-            vod: "https://youtube.com/..."
-          }
-        ],
-        tournament: "RLCS EU Spring 2025"
       }
     ];
 
@@ -754,18 +296,18 @@
     const table = new Tabulator("#esport-table", {
       data: jsonData,
       columns: [
-        { title: "Jeu", field: "game", sorter: "string", headerFilter: "select", headerFilterParams: { values: ["LoL", "CS2", "Rocket League"] } },
-        { title: "Équipe", field: "team", sorter: "string", headerFilter: "input" },
-        { title: "Région", field: "region", sorter: "string", headerFilter: "select", headerFilterParams: { values: ["EU", "NA", "Asie", "OCE"] } },
-        { title: "Ligue", field: "league", sorter: "string", headerFilter: "select", headerFilterParams: { values: ["LEC", "LCK", "LCS", "ESL Pro League", "RLCS"] } },
+        { title: "Jeu", field: "game", sorter: "string" },
+        { title: "Équipe", field: "team", sorter: "string" },
+        { title: "Région", field: "region", sorter: "string" },
+        { title: "Ligue", field: "league", sorter: "string" },
         { title: "Position", field: "position", sorter: "number" },
         { title: "Points", field: "points", sorter: "number" },
-        { title: "Tournoi", field: "tournament", sorter: "string", headerFilter: "input" },
+        { title: "Tournoi", field: "tournament", sorter: "string" },
         {
           title: "Détails",
           field: "matches",
           formatter: function(cell) {
-            return '<button class="px-2 py-1 bg-blue-600 rounded hover:bg-blue-500">Voir matchs</button>';
+            return '<button style="padding: 0.5rem 1rem; background-color: #2563eb; color: white; border-radius: 0.5rem;">Voir matchs</button>';
           },
           cellClick: function(e, cell) {
             const rowData = cell.getRow().getData();
@@ -786,17 +328,17 @@
       
       let content = `<p><strong>Équipe:</strong> ${data.team}</p>`;
       content += `<p><strong>Tournoi:</strong> ${data.tournament}</p>`;
-      content += `<h4 class="text-lg font-semibold mt-4">Matchs:</h4>`;
+      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Matchs:</h4>`;
       
       if (data.matches && data.matches.length > 0) {
         data.matches.forEach(match => {
           content += `
-            <div class="mb-4">
+            <div style="margin-bottom: 1rem;">
               <p><strong>Date:</strong> ${match.date}</p>
               <p><strong>Adversaire:</strong> ${match.opponent}</p>
               <p><strong>Score:</strong> ${match.score}</p>
               ${match.maps ? `<p><strong>Cartes:</strong> ${match.maps.join(", ")}</p>` : ""}
-              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" class="text-blue-400 hover:underline" target="_blank">Regarder</a></p>` : ""}
+              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" style="color: #3b82f6;">Regarder</a></p>` : ""}
             </div>
           `;
         });
@@ -881,19 +423,19 @@
         content += `<p><strong>Équipes:</strong> ${item.teams.join(", ")}</p>`;
       }
 
-      content += `<h4 class="text-lg font-semibold mt-4">Tournois:</h4>`;
+      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Tournois:</h4>`;
       content += `<p>${item.tournaments.join(", ")}</p>`;
 
-      content += `<h4 class="text-lg font-semibold mt-4">Matchs:</h4>`;
+      content += `<h4 style="font-size: 1.125rem; margin-top: 1rem;">Matchs:</h4>`;
       if (item.matches && item.matches.length > 0) {
         item.matches.forEach(match => {
           content += `
-            <div class="mb-4">
+            <div style="margin-bottom: 1rem;">
               <p><strong>Date:</strong> ${match.date}</p>
               ${match.opponent ? `<p><strong>Adversaire:</strong> ${match.opponent}</p>` : `<p><strong>Équipes:</strong> ${match.teams.join(" vs ")}</p>`}
               <p><strong>Score:</strong> ${match.score}</p>
               ${match.maps ? `<p><strong>Cartes:</strong> ${match.maps.join(", ")}</p>` : ""}
-              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" class="text-blue-400 hover:underline" target="_blank">Regarder</a></p>` : ""}
+              ${match.vod ? `<p><strong>VOD:</strong> <a href="${match.vod}" style="color: #3b82f6;">Regarder</a></p>` : ""}
             </div>
           `;
         });
@@ -909,73 +451,24 @@
     }
 
     // Navigation
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('[init] DOM chargé, initialisation de la navigation');
-
-      function showSection(sectionId) {
-        try {
-          console.log(`[showSection] Affichage de: ${sectionId}`);
-          const sections = document.querySelectorAll('section');
-          sections.forEach(section => {
-            section.classList.add('section-hidden');
-            if (section.id === sectionId) {
-              section.classList.remove('section-hidden');
-            }
-          });
-          const defaultLeagues = {
-            'cs2': 'esl-pro-league',
-            'rl': 'rlcs-eu',
-            'lol': 'lec'
-          };
-          if (defaultLeagues[sectionId]) {
-            showLeague(sectionId, defaultLeagues[sectionId]);
-          }
-        } catch (error) {
-          console.error(`[showSection] Erreur: ${error.message}`);
+    function showSection(sectionId) {
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.add('section-hidden');
+        if (section.id === sectionId) {
+          section.classList.remove('section-hidden');
         }
-      }
-
-      function showLeague(sectionId, leagueId) {
-        try {
-          console.log(`[showLeague] Affichage de: ${leagueId} dans ${sectionId}`);
-          const leagueContainer = document.querySelector(`#${sectionId}-leagues`);
-          const leagues = leagueContainer.querySelectorAll('.league-content');
-          leagues.forEach(league => {
-            league.classList.add('hidden');
-            if (league.id === leagueId) {
-              league.classList.remove('hidden');
-            }
-          });
-          const subTabs = document.querySelectorAll(`[data-section="${sectionId}"]`);
-          subTabs.forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.getAttribute('data-league') === leagueId) {
-              tab.classList.add('active');
-            }
-          });
-        } catch (error) {
-          console.error(`[showLeague] Erreur: ${error.message}`);
-        }
-      }
-
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const sectionId = link.getAttribute('href').substring(1);
-          showSection(sectionId);
-        });
       });
+    }
 
-      document.querySelectorAll('.sub-tab').forEach(button => {
-        button.addEventListener('click', () => {
-          const leagueId = button.getAttribute('data-league');
-          const sectionId = button.getAttribute('data-section');
-          showLeague(sectionId, leagueId);
-        });
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sectionId = link.getAttribute('href').substring(1);
+        showSection(sectionId);
       });
-
-      showSection('home');
     });
+
+    showSection('home');
   </script>
 </body>
 </html>
