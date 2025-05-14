@@ -153,6 +153,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-bottom: 2rem;
     }
     th, td {
       padding: 0.75rem;
@@ -164,6 +165,28 @@
     }
     tbody tr:hover {
       background-color: #374151;
+    }
+    .region-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .region-tabs button {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    .region-tabs button.active {
+      background-color: #3b82f6;
+    }
+    .region-content {
+      display: none;
+    }
+    .region-content.active {
+      display: block;
     }
   </style>
 </head>
@@ -195,19 +218,19 @@
       <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Dernières Actualités</h3>
       <div class="grid">
         <div class="card">
-          <h4 style="font-size: 1.125rem; font-weight: 600;">Karmine Corp domine la LEC</h4>
+          <h4 style="font-size: 1.125rem; font-weight: 600;">G2 domine la LEC</h4>
           <p style="color: #9ca3af; font-size: 0.875rem;">14 Mai 2025</p>
-          <p>KC termine la saison régulière en tête avec un record de 8-1.</p>
+          <p>G2 Esports termine la saison régulière Spring Split avec 7-2.</p>
         </div>
         <div class="card">
-          <h4 style="font-size: 1.125rem; font-weight: 600;">Vitality remporte l’ESL Pro League</h4>
-          <p style="color: #9ca3af; font-size: 0.875rem;">15 Mai 2025</p>
-          <p>ZywOo et Vitality dominent FaZe en finale.</p>
+          <h4 style="font-size: 1.125rem; font-weight: 600;">Vitality brille en RLCS</h4>
+          <p style="color: #9ca3af; font-size: 0.875rem;">13 Mai 2025</p>
+          <p>Vitality atteint le top 4 en RLCS EU Open Qualifier 5.</p>
         </div>
         <div class="card">
-          <h4 style="font-size: 1.125rem; font-weight: 600;">BDS brille en RLCS</h4>
-          <p style="color: #9ca3af; font-size: 0.875rem;">10 Mai 2025</p>
-          <p>Team BDS remporte le Major de printemps EU.</p>
+          <h4 style="font-size: 1.125rem; font-weight: 600;">T1 invaincu en LCK</h4>
+          <p style="color: #9ca3af; font-size: 0.875rem;">12 Mai 2025</p>
+          <p>T1 domine la saison régulière avec 8-1.</p>
         </div>
       </div>
     </div>
@@ -228,11 +251,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td>Vitality</td><td>1000</td></tr>
-            <tr><td>2</td><td>Natus Vincere</td><td>920</td></tr>
-            <tr><td>3</td><td>G2 Esports</td><td>850</td></tr>
-            <tr><td>4</td><td>FaZe Clan</td><td>800</td></tr>
-            <tr><td>5</td><td>Team Spirit</td><td>780</td></tr>
+            <tr><td>1</td><td>Vitality</td><td>1100</td></tr>
+            <tr><td>2</td><td>Natus Vincere</td><td>1000</td></tr>
+            <tr><td>3</td><td>G2 Esports</td><td>900</td></tr>
+            <tr><td>4</td><td>FaZe Clan</td><td>850</td></tr>
+            <tr><td>5</td><td>Team Spirit</td><td>800</td></tr>
           </tbody>
         </table>
       </div>
@@ -243,25 +266,67 @@
   <section id="rl" class="section-hidden">
     <h2>Rocket League</h2>
     <div style="margin-bottom: 3rem;">
-      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classement RLCS EU</h3>
-      <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
-        <table>
-          <thead>
-            <tr style="background-color: #1e40af;">
-              <th>Position</th>
-              <th>Équipe</th>
-              <th>Victoires-Défaites</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1</td><td>Team BDS</td><td>12-2</td><td>36</td></tr>
-            <tr><td>2</td><td>Vitality</td><td>11-3</td><td>33</td></tr>
-            <tr><td>3</td><td>Karmine Corp</td><td>10-4</td><td>30</td></tr>
-            <tr><td>4</td><td>Team Falcons</td><td>9-5</td><td>27</td></tr>
-            <tr><td>5</td><td>G2 Esports</td><td>8-6</td><td>24</td></tr>
-          </tbody>
-        </table>
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classements RLCS (14 Mai 2025)</h3>
+      <div class="region-tabs">
+        <button class="region-tab active" data-region="rl-eu">EU</button>
+        <button class="region-tab" data-region="rl-na">NA</button>
+        <button class="region-tab" data-region="rl-apac">APAC</button>
+      </div>
+      <div class="region-content active" id="rl-eu">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Points RLCS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Team BDS</td><td>7500</td></tr>
+              <tr><td>2</td><td>Vitality</td><td>6500</td></tr>
+              <tr><td>3</td><td>Karmine Corp</td><td>6000</td></tr>
+              <tr><td>4</td><td>Gentle Mates</td><td>5500</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="region-content" id="rl-na">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Points RLCS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>G2 Esports</td><td>8000</td></tr>
+              <tr><td>2</td><td>Spacestation Gaming</td><td>7000</td></tr>
+              <tr><td>3</td><td>NRG</td><td>6000</td></tr>
+              <tr><td>4</td><td>Dignitas</td><td>5000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="region-content" id="rl-apac">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Points RLCS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Team Falcons</td><td>9000</td></tr>
+              <tr><td>2</td><td>Chiefs Esports Club</td><td>6000</td></tr>
+              <tr><td>3</td><td>PWR</td><td>5000</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -270,25 +335,88 @@
   <section id="lol" class="section-hidden">
     <h2>League of Legends (LoL)</h2>
     <div style="margin-bottom: 3rem;">
-      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classement LEC/LCK</h3>
-      <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
-        <table>
-          <thead>
-            <tr style="background-color: #1e40af;">
-              <th>Position</th>
-              <th>Équipe</th>
-              <th>Victoires-Défaites</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1</td><td>T1</td><td>9-0</td><td>27</td></tr>
-            <tr><td>2</td><td>Gen.G</td><td>8-1</td><td>24</td></tr>
-            <tr><td>3</td><td>Karmine Corp</td><td>8-1</td><td>24</td></tr>
-            <tr><td>4</td><td>G2 Esports</td><td>7-2</td><td>21</td></tr>
-            <tr><td>5</td><td>Hanwha Life Esports</td><td>6-3</td><td>18</td></tr>
-          </tbody>
-        </table>
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Classements Régionaux (14 Mai 2025)</h3>
+      <div class="region-tabs">
+        <button class="region-tab active" data-region="lol-lec">LEC</button>
+        <button class="region-tab" data-region="lol-lck">LCK</button>
+        <button class="region-tab" data-region="lol-lcs">LCS</button>
+        <button class="region-tab" data-region="lol-lpl">LPL</button>
+      </div>
+      <div class="region-content active" id="lol-lec">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Victoires-Défaites</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>G2 Esports</td><td>7-2</td></tr>
+              <tr><td>2</td><td>Team Heretics</td><td>6-3</td></tr>
+              <tr><td>3</td><td>Fnatic</td><td>6-3</td></tr>
+              <tr><td>4</td><td>Karmine Corp</td><td>5-4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="region-content" id="lol-lck">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Victoires-Défaites</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>T1</td><td>8-1</td></tr>
+              <tr><td>2</td><td>Gen.G</td><td>7-2</td></tr>
+              <tr><td>3</td><td>Hanwha Life Esports</td><td>6-3</td></tr>
+              <tr><td>4</td><td>Dplus KIA</td><td>5-4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="region-content" id="lol-lcs">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Victoires-Défaites</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Cloud9</td><td>7-2</td></tr>
+              <tr><td>2</td><td>Team Liquid</td><td>6-3</td></tr>
+              <tr><td>3</td><td>FlyQuest</td><td>5-4</td></tr>
+              <tr><td>4</td><td>100 Thieves</td><td>4-5</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="region-content" id="lol-lpl">
+        <div style="background-color: #1f2937; border-radius: 0.5rem; overflow-x: auto;">
+          <table>
+            <thead>
+              <tr style="background-color: #1e40af;">
+                <th>Position</th>
+                <th>Équipe</th>
+                <th>Victoires-Défaites</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Bilibili Gaming</td><td>7-2</td></tr>
+              <tr><td>2</td><td>JD Gaming</td><td>6-3</td></tr>
+              <tr><td>3</td><td>Top Esports</td><td>5-4</td></tr>
+              <tr><td>4</td><td>Weibo Gaming</td><td>4-5</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -422,7 +550,7 @@
             game: "LoL",
             team: "G2 Esports",
             palmares: [
-              { tournament: "LEC Grand Slam 2024", year: 2024, role: "Mid" }
+              { tournament: "LEC Spring 2025", year: 2025, role: "Mid" }
             ]
           }
         ]
@@ -462,7 +590,7 @@
             game: "Rocket League",
             team: "Team BDS",
             palmares: [
-              { tournament: "RLCS EU Spring 2025", year: 2025, role: "Main" }
+              { tournament: "RLCS EU Open Qualifier 4", year: 2025, role: "Main" }
             ]
           }
         ]
@@ -475,7 +603,7 @@
             game: "Rocket League",
             team: "Vitality",
             palmares: [
-              { tournament: "RLCS EU Spring 2025", year: 2025, role: "Main" }
+              { tournament: "RLCS EU Open Qualifier 5", year: 2025, role: "Main" }
             ]
           }
         ]
@@ -501,7 +629,7 @@
             game: "Rocket League",
             team: "Karmine Corp",
             palmares: [
-              { tournament: "RLCS EU Open Qualifiers 2024", year: 2024, role: "Main" }
+              { tournament: "RLCS EU Open Qualifier 4", year: 2024, role: "Main" }
             ]
           }
         ]
@@ -514,7 +642,7 @@
             game: "Rocket League",
             team: "G2 Esports",
             palmares: [
-              { tournament: "RLCS Winter Major 2022", year: 2022, role: "Main" }
+              { tournament: "RLCS NA Open Qualifier 4", year: 2025, role: "Main" }
             ]
           }
         ]
@@ -553,7 +681,7 @@
             game: "Rocket League",
             roster: ["Alpha54", "Radosin", "Zen"],
             palmares: [
-              { tournament: "RLCS EU Spring 2025", year: 2025 }
+              { tournament: "RLCS EU Open Qualifier 5", year: 2025 }
             ]
           }
         ]
@@ -574,14 +702,14 @@
             game: "LoL",
             roster: ["BrokenBlade", "Skewmond", "Caps", "Hans Sama", "Labrov"],
             palmares: [
-              { tournament: "LEC Grand Slam 2024", year: 2024 }
+              { tournament: "LEC Spring 2025", year: 2025 }
             ]
           },
           {
             game: "Rocket League",
             roster: ["Atomic", "Chicago", "JKnaps"],
             palmares: [
-              { tournament: "RLCS Winter Major 2022", year: 2022 }
+              { tournament: "RLCS NA Open Qualifier 4", year: 2025 }
             ]
           }
         ]
@@ -675,7 +803,21 @@
             game: "Rocket League",
             roster: ["Vatira", "Atow", "ExoTiiK"],
             palmares: [
-              { tournament: "RLCS EU Open Qualifiers 2024", year: 2024 }
+              { tournament: "RLCS EU Open Qualifier 4", year: 2024 }
+            ]
+          }
+        ]
+      },
+      {
+        type: "team",
+        name: "Team Heretics",
+        logo: "https://liquipedia.net/commons/images/thumb/9/9a/Team_Heretics_2020.png/64px-Team_Heretics_2020.png",
+        games: [
+          {
+            game: "LoL",
+            roster: ["Wunder", "Jankos", "Perkz", "Carzzy", "Kaiser"],
+            palmares: [
+              { tournament: "LEC Spring 2025", year: 2025 }
             ]
           }
         ]
@@ -690,7 +832,7 @@
             game: "Rocket League",
             roster: ["Monkey Moon", "M0nkey M00n", "ExoTiiK"],
             palmares: [
-              { tournament: "RLCS EU Spring 2025", year: 2025 }
+              { tournament: "RLCS EU Open Qualifier 4", year: 2025 }
             ]
           }
         ]
@@ -828,6 +970,19 @@
         e.preventDefault();
         const sectionId = link.getAttribute('href').substring(1);
         showSection(sectionId);
+      });
+    });
+
+    // Gestion des onglets régionaux
+    document.querySelectorAll('.region-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const region = tab.getAttribute('data-region');
+        // Désactiver tous les onglets et contenus
+        document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
+        // Activer l'onglet et le contenu sélectionné
+        tab.classList.add('active');
+        document.getElementById(region).classList.add('active');
       });
     });
 
