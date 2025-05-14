@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pulse of Victory</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sub-tab.active {
+      background-color: #2563eb; /* Blue-600 */
+      color: white;
+      font-weight: bold;
+    }
+    .league-content:not(.hidden) {
+      display: block;
+    }
+    table {
+      min-width: 100%;
+    }
+  </style>
 </head>
 <body class="bg-gray-900 text-white font-sans">
   <!-- Navigation -->
@@ -24,7 +37,6 @@
   <!-- Home Section -->
   <section id="home" class="container mx-auto py-12">
     <h2 class="text-4xl font-bold text-center mb-8">Actualités Esport</h2>
-    <!-- News Section -->
     <div class="mb-12">
       <h3 class="text-2xl font-semibold mb-4">Dernières Actualités</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -45,19 +57,18 @@
         </div>
       </div>
     </div>
-    <!-- Highlights Section -->
     <div>
       <h3 class="text-2xl font-semibold mb-4">Moments Forts</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-gray-800 p-6 rounded-lg">
           <h4 class="text-lg font-semibold">ZywOo Clutch (CS2)</h4>
           <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-          <p class="text-gray-400 text-sm mt-2">Clutch légendaire de ZywOo contre NAVI à l’ESL Pro League.</p>
+          <p class="text-gray-400 text-sm mt-2">Clutch légendaire de ZywOo contre NAVI.</p>
         </div>
         <div class="bg-gray-800 p-6 rounded-lg">
           <h4 class="text-lg font-semibold">G2 vs Fnatic (LoL)</h4>
           <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-          <p class="text-gray-400 text-sm mt-2">Caps domine le mid dans un BO5 épique à la LEC.</p>
+          <p class="text-gray-400 text-sm mt-2">Caps domine le mid dans un BO5 épique.</p>
         </div>
       </div>
     </div>
@@ -92,14 +103,14 @@
     </div>
     <!-- Sub-navigation for leagues -->
     <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="esl-pro-league">ESL Pro League (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="blast-premier">Blast Premier (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="emea-challengers">EMEA Challengers</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="na-challengers">NA Challengers</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="esl-pro-league" data-section="cs2">ESL Pro League (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="blast-premier" data-section="cs2">Blast Premier (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="emea-challengers" data-section="cs2">EMEA Challengers</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="na-challengers" data-section="cs2">NA Challengers</button>
     </div>
     <!-- League Content -->
     <div id="cs2-leagues">
-      <div id="esl-pro-league" class="league-content hidden">
+      <div id="esl-pro-league" class="league-content">
         <h3 class="text-2xl font-bold mb-4">ESL Pro League (Majeure - Europe)</h3>
         <div class="mb-8">
           <h4 class="text-xl font-semibold mb-2">Classement</h4>
@@ -285,17 +296,15 @@
   <!-- Rocket League Section -->
   <section id="rl" class="container mx-auto py-12 hidden">
     <h2 class="text-3xl font-semibold mb-8">Rocket League</h2>
-    <!-- Sub-navigation for leagues -->
     <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-eu">RLCS (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-na">RLCS (NA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-eu">RLCS X Regional (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-na">RLCS X Regional (NA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-oce">RLCS X Regional (OCE)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="rlcs-eu" data-section="rl">RLCS (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-na" data-section="rl">RLCS (NA)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-eu" data-section="rl">RLCS X Regional (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-na" data-section="rl">RLCS X Regional (NA)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="rlcs-x-regional-oce" data-section="rl">RLCS X Regional (OCE)</button>
     </div>
-    <!-- League Content -->
     <div id="rl-leagues">
-      <div id="rlcs-eu" class="league-content hidden">
+      <div id="rlcs-eu" class="league-content">
         <h3 class="text-2xl font-bold mb-4">RLCS (Majeure - Europe)</h3>
         <div class="mb-8">
           <h4 class="text-xl font-semibold mb-2">Classement</h4>
@@ -523,20 +532,18 @@
   <!-- LoL Section -->
   <section id="lol" class="container mx-auto py-12 hidden">
     <h2 class="text-3xl font-semibold mb-8">League of Legends (LoL)</h2>
-    <!-- Sub-navigation for leagues -->
     <div class="flex space-x-4 mb-8 overflow-x-auto">
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lec">LEC (EU)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lck">LCK (Asie)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lpl">LPL (Asie)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lcs">LCS (NA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lfl">LFL (EMEA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lvp">LVP (EMEA)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="cblol">CBLOL (Amérique du Sud)</button>
-      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="vcs">VCS (Asie)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600 active" data-league="lec" data-section="lol">LEC (EU)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lck" data-section="lol">LCK (Asie)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lpl" data-section="lol">LPL (Asie)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lcs" data-section="lol">LCS (NA)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lfl" data-section="lol">LFL (EMEA)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="lvp" data-section="lol">LVP (EMEA)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="cblol" data-section="lol">CBLOL (Amérique du Sud)</button>
+      <button class="sub-tab px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-600" data-league="vcs" data-section="lol">VCS (Asie)</button>
     </div>
-    <!-- League Content -->
     <div id="lol-leagues">
-      <div id="lec" class="league-content hidden">
+      <div id="lec" class="league-content">
         <h3 class="text-2xl font-bold mb-4">LEC (Majeure - Europe)</h3>
         <div class="mb-8">
           <h4 class="text-xl font-semibold mb-2">Classement</h4>
@@ -895,115 +902,4 @@
               <tbody>
                 <tr><td class="p-4">1</td><td class="p-4">GAM Esports</td><td class="p-4">12</td><td class="p-4">10-2</td><td class="p-4">30</td></tr>
                 <tr><td class="p-4">2</td><td class="p-4">Team Flash</td><td class="p-4">12</td><td class="p-4">8-4</td><td class="p-4">24</td></tr>
-                <tr><td class="p-4">3</td><td class="p-4">CERBERUS</td><td class="p-4">12</td><td class="p-4">7-5</td><td class="p-4">21</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="mb-8">
-          <h4 class="text-xl font-semibold mb-2">Articles</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">GAM Esports</h5>
-              <p class="text-gray-400 text-sm">10 Avril 2025</p>
-              <p>GAM Esports s’impose en VCS.</p>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">Team Flash</h5>
-              <p class="text-gray-400 text-sm">12 Avril 2025</p>
-              <p>Team Flash gagne en popularité.</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4 class="text-xl font-semibold mb-2">Moments Forts</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg">
-              <h5 class="text-lg font-semibold">GAM’s Play</h5>
-              <iframe class="w-full h-64" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-              <p class="text-gray-400 text-sm mt-2">Jeu clé de GAM.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="container mx-auto py-12 hidden">
-    <h2 class="text-3xl font-semibold mb-8">À propos</h2>
-    <p class="text-lg">Pulse of Victory est dédié à la passion pour l’esport. Retrouvez les dernières actualités, classements, et moments forts de CS2, Rocket League, et LoL.</p>
-    <p class="text-lg mt-4">Créé par Hugo Linke, fan d’esport et de compétition.</p>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-blue-800 p-4 text-center">
-    <p>© 2025 Pulse of Victory. Tous droits réservés.</p>
-  </footer>
-
-  <!-- JavaScript for Navigation -->
-  <script>
-    // Gestion des onglets principaux (Accueil, CS2, RL, LoL, À propos)
-    function showSection(sectionId) {
-      console.log('Affichage de la section:', sectionId);
-      const sections = document.querySelectorAll('section');
-      sections.forEach(section => {
-        section.classList.add('hidden');
-        if (section.id === sectionId) {
-          section.classList.remove('hidden');
-        }
-      });
-
-      // Afficher le premier sous-onglet par défaut pour CS2, RL, LoL
-      if (['cs2', 'rl', 'lol'].includes(sectionId)) {
-        const defaultLeagues = {
-          'cs2': 'esl-pro-league',
-          'rl': 'rlcs-eu',
-          'lol': 'lec'
-        };
-        showLeague(sectionId, defaultLeagues[sectionId]);
-      }
-    }
-
-    // Gestion des sous-onglets (ligues)
-    function showLeague(sectionId, leagueId) {
-      console.log(`Affichage de la ligue: ${leagueId} dans la section: ${sectionId}`);
-      const leagueContainer = document.querySelector(`#${sectionId}-leagues`);
-      if (!leagueContainer) {
-        console.error(`Conteneur de ligues #${sectionId}-leagues introuvable`);
-        return;
-      }
-      const leagues = leagueContainer.querySelectorAll('.league-content');
-      if (leagues.length === 0) {
-        console.error(`Aucun contenu de ligue trouvé dans #${sectionId}-leagues`);
-        return;
-      }
-      leagues.forEach(league => {
-        league.classList.add('hidden');
-        if (league.id === leagueId) {
-          league.classList.remove('hidden');
-          console.log(`Ligue ${leagueId} affichée`);
-        }
-      });
-    }
-
-    // Ajouter des écouteurs pour les onglets principaux
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const sectionId = link.getAttribute('href').substring(1);
-        showSection(sectionId);
-      });
-    });
-
-    // Ajouter des écouteurs pour les sous-onglets
-    document.querySelectorAll('.sub-tab').forEach(button => {
-      button.addEventListener('click', () => {
-        const leagueId = button.getAttribute('data-league');
-        const sectionId = button.closest('section').id;
-        console.log(`Clic sur sous-onglet: ${leagueId} dans ${sectionId}`);
-        showLeague(sectionId, leagueId);
-      });
-    });
-
-    // Afficher la section d'accueil par défaut
+                <tr><td class="p-4">3</td><td class="p-4">CER
